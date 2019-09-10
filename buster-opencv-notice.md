@@ -1,7 +1,7 @@
-In the latest Raspbian Buster with the Linux kernel > 4.19.57 stereoscopic support
-is broken. Please DO NOT do upgrade of the system untill appropriate fix from the
+**In the latest Raspbian Buster with the Linux kernel > 4.19.57 stereoscopic support
+is broken. Please DO NOT upgrade of the system untill appropriate fix from the
 Raspberry Pi Foundation.
-We'll update this document after any improvements.
+We'll update this document after any improvements.**
 
 # Installing OpenCV on raspbian Buster without breaking stereoscopic mode:
 
