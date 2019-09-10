@@ -37,7 +37,7 @@ Activate new settings:
 
 `source ~/.bashrc`
 
-Check if settings are implemented correctly.
+Check if the settings are applied correctly.
 
 `python`
 
