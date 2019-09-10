@@ -23,7 +23,7 @@ Enable camera:
 
 Go to "Interfacing options", choose "Enable camera", press "Yes", reboot your system.
 
-#### 4. Set up python 3 as a default:
+#### 4. Set python 3 as a default:
 
 `sudo nano ~/.bashrc`
 
