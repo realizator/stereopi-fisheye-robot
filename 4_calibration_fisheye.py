@@ -129,7 +129,7 @@ while photo_counter != total_photos:
           cv2.cornerSubPix(gray_small_right,cornersR,(3,3),(-1,-1),subpix_criteria)
           imgpointsRight.append(cornersR)
       else:
-          Print ("Pair No", photo_counter, "ignored, as no chessboard found" )
+          print ("Pair No", photo_counter, "ignored, as no chessboard found" )
           continue
        
 print ('End cycle')
