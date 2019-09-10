@@ -5,7 +5,7 @@ We'll update this document after any improvements.**
 
 # Installing OpenCV on raspbian Buster without breaking stereoscopic mode:
 
-#### 1. Download Raspbian Buster and write omage to ypur micro SD card.
+#### 1. Download Raspbian Buster and write image to your micro SD card.
 We've used "Raspbian Buster with desktop, 2019-07-10"
 
 
