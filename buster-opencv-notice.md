@@ -3,12 +3,24 @@ is broken. Please DO NOT do upgrade of the system untill appropriate fix from th
 Raspberry Pi Foundation.
 We'll update this document after any improvements.
 
-== Installing OpenCV on raspbian Buster without breaking stereoscopic mode: ==
+# Installing OpenCV on raspbian Buster without breaking stereoscopic mode:
 
-1. Download Raspbian Buster and write omage to ypur micro SD card.
+#### 1. Download Raspbian Buster and write omage to ypur micro SD card.
 We've used "Raspbian Buster with desktop, 2019-07-10"
 
-2. Set up python 3 as a default:
+
+#### 2. Enable two cameras support:
+Put [dt-blob.bin](http://wiki.stereopi.com/files/dt-blob.bin.zip) file to /BOOT partition. Do not forget to extract it from ZIP archive.
+
+#### 3. First boot (important!!!)
+After the first boot you'll see setup wizard. Choose all settings you need, but please **SKIP latest step - "check for updates"**.
+Enable camera:
+
+`sudo raspi-config`
+
+Go to "Interfacing options", choose "Enable camera", press "Yes", reboot your system.
+
+#### 4. Set up python 3 as a default:
 
 `nano ~/.bashrc`
 
@@ -16,9 +28,9 @@ add this row at the end of file:
 
 `alias python='/usr/bin/python3'`
 
-save file (Esc X X, "yes")
+Save the file (Esc X X, "yes").
 
-activate new settings:
+Activate new settings:
 
 `source ~/.bashrc`
 
@@ -30,7 +42,7 @@ You should see "Python 3.7.3" in the first row.
 
 If you see "Python 2.7.x" - please repeat previous steps.
 
-3. Install OpenCV 3.4.3 with PiWheels:
+#### 5. Install OpenCV 3.4.3 with PiWheels:
 
 `sudo pip3 install opencv-python`
 
@@ -38,7 +50,7 @@ If you see "Python 2.7.x" - please repeat previous steps.
 
 In our case we have 3.4.3.18 version installed.
 
-4. Install additional libs:
+#### 6. Install additional libs:
 
 ```
 sudo pip3 install opencv-python 
@@ -50,12 +62,13 @@ sudo apt-get install libqtgui4
 sudo apt-get install libqt4-test
 ```
 
-5. To check if everything Ok try to run our first test script:
-python 1_test.py
+#### 7. To check if everything Ok try to run our first test script:
+
+`python 1_test.py`
 
 You should see preview image. Press 'Q' for exit.
 
-6. Check raspistill 3D mode:
+#### 8. Check raspistill 3D mode:
 
 `raspistill -3d sbs -o 1.jpg`
 
