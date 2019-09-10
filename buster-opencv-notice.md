@@ -3,7 +3,7 @@ is broken. Please DO NOT upgrade of the system untill appropriate fix from the
 Raspberry Pi Foundation.
 We'll update this document after any improvements.**
 
-# Installing OpenCV on raspbian Buster without breaking stereoscopic mode:
+# Installing OpenCV 3.4.3 on raspbian Buster without breaking stereoscopic mode:
 
 #### 1. Download Raspbian Buster and write image to your micro SD card.
 We've used "Raspbian Buster with desktop, 2019-07-10"
