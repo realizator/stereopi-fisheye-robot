@@ -15,7 +15,11 @@ Put [dt-blob.bin](http://wiki.stereopi.com/files/dt-blob.bin.zip) file to /BOOT 
 #### 3. First boot (important!!!)
 After the first boot you'll see setup wizard. Choose all settings you need, but please 
 
-**SKIP the latest step - "check for updates"**.
+#### SKIP the latest step - "check for updates".
+
+## SKIP the latest step - "check for updates".
+
+#### SKIP the latest step - "check for updates".
 
 Enable camera:
 
@@ -78,6 +82,11 @@ You should see preview image. Press 'Q' for exit.
 You should see 5 seconds preview, and stereoscopic image "1.jpg" should be saved after 
 running this code.
 
+#### 9. How to avoid occasional stereoscopic support breaking?
+
+Untill update from RPi Foundation, please do not update your Raspbian Buster.
+
+We do not recomment direct kernel update with 'sudo rpi-update', system update with 'sudo apt-get upgrade', and also following the last setup wizard step running 'sudo piwiz'.
 
 Stay tuned! 
 
