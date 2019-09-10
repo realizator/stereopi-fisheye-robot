@@ -78,4 +78,7 @@ You should see preview image. Press 'Q' for exit.
 You should see 5 seconds preview, and stereoscopic image "1.jpg" should be saved after 
 running this code.
 
-Stay tuned! And good luck with your OpenCV experiments! :-)
+
+Stay tuned! 
+
+And good luck with your OpenCV experiments! :-)
