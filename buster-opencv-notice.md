@@ -13,7 +13,7 @@ We've used "Raspbian Buster with desktop, 2019-07-10"
 Put [dt-blob.bin](http://wiki.stereopi.com/files/dt-blob.bin.zip) file to /BOOT partition. Do not forget to extract it from ZIP archive.
 
 #### 3. First boot (important!!!)
-After the first boot you'll see setup wizard. Choose all settings you need, but please **SKIP latest step - "check for updates"**.
+After the first boot you'll see setup wizard. Choose all settings you need, but please **SKIP the latest step - "check for updates"**.
 Enable camera:
 
 `sudo raspi-config`
