@@ -14,6 +14,7 @@ Put [dt-blob.bin](http://wiki.stereopi.com/files/dt-blob.bin.zip) file to /BOOT 
 
 #### 3. First boot (important!!!)
 After the first boot you'll see setup wizard. Choose all settings you need, but please **SKIP the latest step - "check for updates"**.
+
 Enable camera:
 
 `sudo raspi-config`
