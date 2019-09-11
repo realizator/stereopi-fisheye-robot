@@ -34,6 +34,8 @@ import numpy as np
 import os
 from datetime import datetime
 
+# User quit method message 
+print("You can press 'Q' to quit this script.")
 
 # File for captured image
 filename = './scenes/photo.png'
@@ -48,7 +50,7 @@ scale_ratio = 1
 # Camera resolution height must be dividable by 16, and width by 32
 cam_width = int((cam_width+31)/32)*32
 cam_height = int((cam_height+15)/16)*16
-print ("Used camera resolution: "+str(cam_width)+" x "+str(cam_height))
+print ("Camera resolution: "+str(cam_width)+" x "+str(cam_height))
 
 # Buffer for captured image settings
 img_width = int (cam_width * scale_ratio)
@@ -61,7 +63,6 @@ camera = PiCamera(stereo_mode='side-by-side',stereo_decimate=False)
 camera.resolution=(cam_width, cam_height)
 camera.framerate = 20
 camera.hflip = True
-
 
 t2 = datetime.now()
 counter = 0
@@ -83,6 +84,7 @@ for frame in camera.capture_continuous(capture, format="bgra", use_video_port=Tr
         if (os.path.isdir("./scenes")==False):
             os.makedirs("./scenes")
         cv2.imwrite(filename, frame)
+        exit(0)
         break
    
     

@@ -33,8 +33,11 @@ from picamera import PiCamera
 import cv2
 import numpy as np
 
+# User quit methid message 
+print("You can press 'Q' to quit this script.")
+
 # Photo session settings
-total_photos = 30             # Number of images to take
+total_photos = 50             # Number of images to take
 countdown = 5                 # Interval for count-down timer, seconds
 font=cv2.FONT_HERSHEY_SIMPLEX # Cowntdown timer font
  
@@ -48,7 +51,7 @@ scale_ratio = 1
 # Camera resolution height must be dividable by 16, and width by 32
 cam_width = int((cam_width+31)/32)*32
 cam_height = int((cam_height+15)/16)*16
-print ("Used camera resolution: "+str(cam_width)+" x "+str(cam_height))
+print ("Camera resolution: "+str(cam_width)+" x "+str(cam_height))
 
 # Buffer for captured image settings
 img_width = int (cam_width * scale_ratio)
@@ -70,6 +73,7 @@ for frame in camera.capture_continuous(capture, format="bgra", \
                   use_video_port=True, resize=(img_width,img_height)):
     t1 = datetime.now()
     cntdwn_timer = countdown - int ((t1-t2).total_seconds())
+    
     # If cowntdown is zero - let's record next image
     if cntdwn_timer == -1:
       counter += 1
@@ -81,6 +85,7 @@ for frame in camera.capture_continuous(capture, format="bgra", \
       time.sleep(1)
       cntdwn_timer = 0      # To avoid "-1" timer display 
       next
+    
     # Draw cowntdown counter, seconds
     cv2.putText(frame, str(cntdwn_timer), (50,50), font, 2.0, (0,0,255),4, cv2.LINE_AA)
     cv2.imshow("pair", frame)

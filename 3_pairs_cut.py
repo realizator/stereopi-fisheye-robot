@@ -30,16 +30,21 @@ import cv2
 import os
 
 # Global variables preset
-total_photos = 30
+total_photos = 50
+
 # Photos to be cutted resolution
 photo_width = 1280
 photo_height = 480
+
 # Left and right images resolution
 img_width = 640
 img_height = 480
 
-photo_counter = 0
+# Visualization options
+ShowImages = True
 
+# Counter setup
+photo_counter = 0
 
 # Main pair cut cycle
 if (os.path.isdir("./pairs")==False):
@@ -53,8 +58,9 @@ while photo_counter != total_photos:
         continue
     pair_img = cv2.imread(filename,-1)
     
-    cv2.imshow("ImagePair", pair_img)
-    cv2.waitKey(0)
+    if (ShowImages)
+        cv2.imshow("ImagePair", pair_img)
+        cv2.waitKey(0)
     imgLeft = pair_img [0:img_height,0:img_width] #Y+H and X+W
     imgRight = pair_img [0:img_height,img_width:photo_width]
     leftName = './pairs/left_'+str(photo_counter).zfill(2)+'.png'

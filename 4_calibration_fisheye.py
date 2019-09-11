@@ -34,10 +34,12 @@ import numpy as np
 
 
 # Global variables preset
-total_photos = 30
+total_photos = 50
+
 # Camera resolution
 photo_width = 1280
 photo_height = 480
+
 # Image resolution for processing
 img_width = 320
 img_height = 240
@@ -49,11 +51,11 @@ columns = 9
 square_size = 2.5
 
 # Visualization options
-drawCorners = True
+drawCorners = False
 showSingleCamUndistortionResults = True
 showStereoRectificationResults = True
 writeUdistortedImages = True
-imageToDisp = './scenes/photo-640-240.png'
+imageToDisp = './scenes/scene_1280x480_1.png'
 
 # Calibration settings
 CHECKERBOARD = (6,9)
@@ -71,9 +73,15 @@ imgpointsLeft = [] # 2d points in image plane.
 objpointsRight = [] # 3d point in real world space
 imgpointsRight = [] # 2d points in image plane.
 
+if (drawCorners):
+    print("You can press 'Q' to quit this script.")
+
+
 # Main processing cycle
+# We process all calibration images and fill up 'imgpointsLeft' and 'objpointsRight'
+# arrays with found coordinates of the chessboard
 photo_counter = 0
-print ('Start cycle')
+print ('Main cycle start')
 
 while photo_counter != total_photos:
   photo_counter = photo_counter + 1
@@ -107,11 +115,13 @@ while photo_counter != total_photos:
           cv2.imshow('Corners LEFT', imgL)
           cv2.drawChessboardCorners(imgR, (6,9), cornersR, retR)
           cv2.imshow('Corners RIGHT', imgR)
-          cv2.waitKey(0)
+          key = cv2.waitKey(0)
+          if key == ord("q"):
+              exit(0)
       
       # Here is our scaling trick! Hi res for calibration, low res for real work!
       # Scale corners X and Y to our working resolution
-      if (img_height <= photo_height):
+      if ((retL == True) and (retR == True)) and (img_height <= photo_height):
           scale_ratio = img_height/photo_height
           print ("Scale ratio: ", scale_ratio)
           cornersL = cornersL*scale_ratio #cornersL/2.0
@@ -135,10 +145,9 @@ while photo_counter != total_photos:
 print ('End cycle')
 
 
-
+# This function calibrates (undistort) a single camera
 def calibrate_one_camera (objpoints, imgpoints, right_or_left):
   
-
     # Opencv sample code uses the var 'grey' from the last opened picture
     N_OK = len(objpoints)
     DIM= (img_width, img_height)
@@ -146,7 +155,8 @@ def calibrate_one_camera (objpoints, imgpoints, right_or_left):
     D = np.zeros((4, 1))
     rvecs = [np.zeros((1, 1, 3), dtype=np.float64) for i in range(N_OK)]
     tvecs = [np.zeros((1, 1, 3), dtype=np.float64) for i in range(N_OK)]
-
+    
+    # Single camera calibration (undistortion)
     rms, camera_matrix, distortion_coeff, _, _ = \
         cv2.fisheye.calibrate(
             objpoints,
@@ -159,8 +169,10 @@ def calibrate_one_camera (objpoints, imgpoints, right_or_left):
             calibration_flags,
             (cv2.TERM_CRITERIA_EPS+cv2.TERM_CRITERIA_MAX_ITER, 30, 1e-6)
         )
-
+    # Let's rectify our results
     map1, map2 = cv2.fisheye.initUndistortRectifyMap(K, D, np.eye(3), K, DIM, cv2.CV_16SC2)
+    
+    # Now we'll write our results to the file for the future use
     if (os.path.isdir('./calibration_data/{}p'.format(img_height))==False):
         os.makedirs('./calibration_data/{}p'.format(img_height))
     np.savez('./calibration_data/{}p/camera_calibration_{}.npz'.format(img_height, right_or_left),
@@ -236,14 +248,14 @@ def calibrate_stereo_cameras(res_x=img_width, res_y=img_height):
     leftImagePoints = np.asarray(leftImagePoints, dtype=np.float64)
     rightImagePoints = np.asarray(rightImagePoints, dtype=np.float64)
 
-    #print (objectPoints)
-    #exit(0)
+    # Stereo calibration
     (RMS, _, _, _, _, rotationMatrix, translationVector) = cv2.fisheye.stereoCalibrate(
             objectPoints, leftImagePoints, rightImagePoints,
             leftCameraMatrix, leftDistortionCoefficients,
             rightCameraMatrix, rightDistortionCoefficients,
             imageSize, None, None,
             cv2.CALIB_FIX_INTRINSIC, TERMINATION_CRITERIA)
+    # Print RMS result (for calibration quality estimation)
     print ("<><><><><><><><><><><><><><><><><><><><>")
     print ("<><>   RMS is ", RMS, " <><>")
     print ("<><><><><><><><><><><><><><><><><><><><>")    
@@ -253,7 +265,8 @@ def calibrate_stereo_cameras(res_x=img_width, res_y=img_height):
     P1 = np.zeros([3,4])
     P2 = np.zeros([3,4])
     Q = np.zeros([4,4])
-
+    
+    # Rectify calibration results
     (leftRectification, rightRectification, leftProjection, rightProjection,
             dispartityToDepthMap) = cv2.fisheye.stereoRectify(
                     leftCameraMatrix, leftDistortionCoefficients,
@@ -261,6 +274,8 @@ def calibrate_stereo_cameras(res_x=img_width, res_y=img_height):
                     imageSize, rotationMatrix, translationVector,
                     0, R2, P1, P2, Q,
                     cv2.CALIB_ZERO_DISPARITY, (0,0) , 0, 0)
+    
+    # Saving calibration results for the future use
     print("Saving calibration...")
     leftMapX, leftMapY = cv2.fisheye.initUndistortRectifyMap(
             leftCameraMatrix, leftDistortionCoefficients, leftRectification,
@@ -271,13 +286,22 @@ def calibrate_stereo_cameras(res_x=img_width, res_y=img_height):
 
     np.savez_compressed('./calibration_data/{}p/stereo_camera_calibration.npz'.format(res_y), imageSize=imageSize,
             leftMapX=leftMapX, leftMapY=leftMapY,
-            rightMapX=rightMapX, rightMapY=rightMapY)
+            rightMapX=rightMapX, rightMapY=rightMapY, dispartityToDepthMap = dispartityToDepthMap)
     return True
 
-# Left and right cameras fisheye calibraton
+# Now we have all we need to do stereoscopic fisheye calibration
+# Let's calibrate each camera, and than calibrate them together
+print ("Left camera calibration...")
 result = calibrate_one_camera(objpointsLeft, imgpointsLeft, 'left')
+print ("Right camera calibration...")
 result = calibrate_one_camera(objpointsRight, imgpointsRight, 'right')
+print ("Stereoscopic calibration...")
+result = calibrate_stereo_cameras()
+print ("Calibration complete!")
 
+# The following code just shows you calibration results
+# 
+#
 
 if (showSingleCamUndistortionResults):
 
@@ -305,6 +329,7 @@ if (showSingleCamUndistortionResults):
         print("Camera calibration data not found in cache, file " & './calibration_data/{}p/camera_calibration{}.npz'.format(h, left))
         exit(0)
 
+    # We didn't load a new image from file, but use last image loaded while calibration
     undistorted_left = cv2.remap(gray_small_left, map1, map2, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
 
     #h, w = imgR.shape[:2]
@@ -324,8 +349,8 @@ if (showSingleCamUndistortionResults):
 
     undistorted_right = cv2.remap(gray_small_right, map1, map2, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
 
-    cv2.imshow('Left CALIBRATED', undistorted_left)
-    cv2.imshow('Right CALIBRATED', undistorted_right)
+    cv2.imshow('Left UNDISTORTED', undistorted_left)
+    cv2.imshow('Right UNDISTORTED', undistorted_right)
     cv2.waitKey(0)
     if (writeUdistortedImages):
         cv2.imwrite("undistorted_left.jpg",undistorted_left)
@@ -333,7 +358,6 @@ if (showSingleCamUndistortionResults):
 
 
 
-result = calibrate_stereo_cameras()
 
 if (showStereoRectificationResults):
     # lets rectify pair and look at the result
@@ -347,14 +371,12 @@ if (showStereoRectificationResults):
         print("Camera calibration data not found in cache, file " & './calibration_data/{}p/stereo_camera_calibration.npz'.format(240))
         exit(0)
     
-    #imageSize = tuple(npzfile['imageSize'])
-
     leftMapX = npzfile['leftMapX']
     leftMapY = npzfile['leftMapY']
     rightMapX = npzfile['rightMapX']
     rightMapY = npzfile['rightMapY']
 
-    #read image to undist
+    #read image to undistort
     photo_width = 640
     photo_height = 240
     image_width = 320
@@ -366,7 +388,20 @@ if (showStereoRectificationResults):
         exit(0)
 
     pair_img = cv2.imread(imageToDisp,0)
+
+    # If our image has width and height we need? 
+    height_check, width_check  = pair_img.shape[:2]
     
+    if (width_check != photo_width) and (height_check != photo_height):
+        # It's not our size. If it is scaled?
+        if (width_check/photo_width == height_check/photo_height):
+            # Well, it's just scaled! Let's resize it to fit our needs
+            pair_img = cv2.resize (pair_img, dsize=(photo_width, photo_height), interpolation = cv2.INTER_CUBIC)
+        else:
+            # Image can not be scaled, as calibration was done for another image size
+            print ("Wrong image size. Please choose appropriate image.")
+            exit (0)
+
     # Read image and split it in a stereo pair
     print('Read and split image...')
     imgLTest = pair_img [0:photo_height,0:image_width] #Y+H and X+W

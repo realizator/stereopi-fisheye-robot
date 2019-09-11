@@ -34,9 +34,10 @@ from matplotlib import pyplot as plt
 from matplotlib.widgets import Slider, Button
 import numpy as np
 import json
+import time
 
 # Global variables preset
-imageToDisp = './scenes/photo-640-240.png'
+imageToDisp = './scenes/dm-tune.jpg'
 photo_width = 640
 photo_height = 240
 image_width = 320
@@ -46,8 +47,15 @@ image_size = (image_width,image_height)
 
 if os.path.isfile(imageToDisp) == False:
     print ('Can not read image from file \"'+imageToDisp+'\"')
-    exit(0)
-
+    # No image! Let's take it...
+    print ("Taking photo...")
+    camera = PiCamera(stereo_mode='side-by-side',stereo_decimate=False)
+    camera.resolution=(photo_width, photo_height)
+    camera.hflip = True
+    time.sleep(1)
+    camera.capture(imageToDisp)
+    print ("Done!")
+    
 pair_img = cv2.imread(imageToDisp,0)
 # Read image and split it in a stereo pair
 print('Read and split image...')
@@ -199,15 +207,15 @@ dmObject = plt.imshow(disparity, aspect='equal', cmap='jet')
 # Draw interface for adjusting parameters
 print('Start interface creation (it takes up to 30 seconds)...')
 
-SWSaxe = plt.axes([0.15, 0.01, 0.7, 0.025], axisbg=axcolor) #stepX stepY width height 
-PFSaxe = plt.axes([0.15, 0.05, 0.7, 0.025], axisbg=axcolor) #stepX stepY width height 
-PFCaxe = plt.axes([0.15, 0.09, 0.7, 0.025], axisbg=axcolor) #stepX stepY width height 
-MDSaxe = plt.axes([0.15, 0.13, 0.7, 0.025], axisbg=axcolor) #stepX stepY width height 
-NODaxe = plt.axes([0.15, 0.17, 0.7, 0.025], axisbg=axcolor) #stepX stepY width height 
-TTHaxe = plt.axes([0.15, 0.21, 0.7, 0.025], axisbg=axcolor) #stepX stepY width height 
-URaxe = plt.axes([0.15, 0.25, 0.7, 0.025], axisbg=axcolor) #stepX stepY width height
-SRaxe = plt.axes([0.15, 0.29, 0.7, 0.025], axisbg=axcolor) #stepX stepY width height
-SPWSaxe = plt.axes([0.15, 0.33, 0.7, 0.025], axisbg=axcolor) #stepX stepY width height
+SWSaxe = plt.axes([0.15, 0.01, 0.7, 0.025], facecolor=axcolor) #stepX stepY width height 
+PFSaxe = plt.axes([0.15, 0.05, 0.7, 0.025], facecolor=axcolor) #stepX stepY width height 
+PFCaxe = plt.axes([0.15, 0.09, 0.7, 0.025], facecolor=axcolor) #stepX stepY width height 
+MDSaxe = plt.axes([0.15, 0.13, 0.7, 0.025], facecolor=axcolor) #stepX stepY width height 
+NODaxe = plt.axes([0.15, 0.17, 0.7, 0.025], facecolor=axcolor) #stepX stepY width height 
+TTHaxe = plt.axes([0.15, 0.21, 0.7, 0.025], facecolor=axcolor) #stepX stepY width height 
+URaxe = plt.axes([0.15, 0.25, 0.7, 0.025], facecolor=axcolor) #stepX stepY width height
+SRaxe = plt.axes([0.15, 0.29, 0.7, 0.025], facecolor=axcolor) #stepX stepY width height
+SPWSaxe = plt.axes([0.15, 0.33, 0.7, 0.025], facecolor=axcolor) #stepX stepY width height
 
 sSWS = Slider(SWSaxe, 'SWS', 5.0, 255.0, valinit=5)
 sPFS = Slider(PFSaxe, 'PFS', 5.0, 255.0, valinit=5)
