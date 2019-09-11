@@ -69,6 +69,10 @@ sudo apt-get install libqtgui4
 sudo apt-get install libqt4-test
 ```
 
+You may also need matplotlib. Go this way:
+
+`sudo pip3 install matplotlib`
+
 #### 7. To check if everything Ok try to run our first test script:
 
 `python 1_test.py`
