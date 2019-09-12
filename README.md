@@ -4,9 +4,9 @@ StereoPi fisheye robot tutorial scripts
 Set of StereoPi Fisheye Robot tutorial scripts for StereoPi board with CM3/3+ inside.
 
 Was tested in the following environment:
-* Raspbian Stretch (kernel 4.14.98-v7+)
-* Python 3.5.3 
-* OpenCV 3.4.4 (pre-compiled, 'pip' from Python Wheels)
+* Raspbian Buster (kernel 4.19.57-v7+)
+* Python 3.7.3 
+* OpenCV 3.4.3 (pre-compiled, 'pip' from Python Wheels)
 * Picamera 1.13
 
 
