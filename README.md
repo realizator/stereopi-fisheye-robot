@@ -20,25 +20,21 @@ Related article: https://medium.com/stereopi/a-robot-on-stereopi-part-1-fisheye-
 
 ### Brief scripts description:
 
-<b>1_test.py</b> - starts camera preview, save captured image if 'Q' button is pressed. 
+**1_test.py** - starts camera preview, save captured image if 'Q' button is pressed. 
 align.
-<br>
 
-<b>2_chess_cycle.py</b> - takes a series of photos for stereopair calibration, shows count
-down timer. You need a printed chessboard with 9x6 parameters (file "pattern.png" included).<br>
-<br>
+**2_chess_cycle.py** - takes a series of photos for stereopair calibration, shows count
+down timer. You need a printed chessboard with 9x6 parameters (file "pattern.png" included).
 
-<b>3_pairs_cut.py</b> - just cuts all captured photos to left and right images.<br>
-<br>
+**3_pairs_cut.py** - just cuts all captured photos to left and right images.
 
-<b>4_calibration_fisheye.py</b> - calibrate StereoPi cameas setup using pairs from script 4.<br>
-<br>
+**4_calibration_fisheye.py** - calibrate StereoPi cameas setup using pairs from script 4.
+
+**5_dm_tune.py** - script for fine tune of disparity map settings.
+
+**6_dm_video.py** - builds disparity map in real time.
 
 
-<b>5_dm_tune.py</b> - script for fine tune of disparity map settings.<br>
-<br>
-
-<b>6_dm_video.py</b> - builds disparity map in real time.<br>
-<br>
+**7_2d_map.py** - builds 2D map from the depth map.
 
 
