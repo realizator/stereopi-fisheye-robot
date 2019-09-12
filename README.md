@@ -12,7 +12,13 @@ Was tested in the following environment:
 
 Related article: https://medium.com/stereopi/a-robot-on-stereopi-part-1-fisheye-cameras-92aa56e73a94
 
-Brief scripts description:
+### Ready-to-use Buster Raspbian OpenCV image (1.87Gb, needs 8Gb micro SD or eMMC):
+
+[Google Drive](https://drive.google.com/file/d/1eIt-qJDd_aeyK72cqOgRzUGfm5TZmfMD/view?usp=sharing)
+
+[Yandex Disk](https://yadi.sk/d/gCYA_Yy06fpJxA)
+
+### Brief scripts description:
 
 <b>1_test.py</b> - starts camera preview, save captured image if 'Q' button is pressed. 
 align.
