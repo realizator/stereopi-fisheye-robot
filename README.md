@@ -18,6 +18,10 @@ Related article: https://medium.com/stereopi/a-robot-on-stereopi-part-1-fisheye-
 
 [Yandex Disk](https://yadi.sk/d/gCYA_Yy06fpJxA)
 
+### Want to prepare OpenCV Raspbian Buster image by yourself?
+
+Follow this guide: [buster-opencv-notice.md](https://github.com/realizator/stereopi-fisheye-robot/blob/master/buster-opencv-notice.md)
+
 ### Brief scripts description:
 
 **1_test.py** - starts camera preview, save captured image if 'Q' button is pressed. 
