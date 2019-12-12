@@ -9,6 +9,13 @@ Was tested in the following environment:
 * OpenCV 3.4.3 (pre-compiled, 'pip' from Python Wheels)
 * Picamera 1.13
 
+### Critical notice!
+In the latest Raspbian kernels stereoscopic support has been occasionally broken by implementing new AWB algorithm. You can read some details [here](https://github.com/raspberrypi/firmware/issues/1253).
+Current solution: after boot run once this command before accessing your cameras:
+```
+sudo vcdbg set awb_mode 0
+```
+This will turn AWB algo to the previous mode, and stereo works again untill next reboot. So run this command after reboot, or add it to your autorun script. 
 
 Related article: https://medium.com/stereopi/a-robot-on-stereopi-part-1-fisheye-cameras-92aa56e73a94
 
