@@ -1,7 +1,12 @@
-**In the latest Raspbian Buster with the Linux kernel > 4.19.57 stereoscopic support
-is broken. Please DO NOT upgrade of the system untill appropriate fix from the
-Raspberry Pi Foundation.
-We'll update this document after any improvements.**
+### Critical notice!
+In the latest Raspbian kernels stereoscopic support has been occasionally broken by implementing new AWB algorithm. You can read some details [here](https://github.com/raspberrypi/firmware/issues/1253). Our Raspbian image provided has no such a problem (as it is based on older kernel), but you can get it after 'apt-get upgrade' or 'rpi-update'.
+
+Current solution: after boot run once this command before accessing your cameras:
+```
+sudo vcdbg set awb_mode 0
+```
+This will turn AWB algo to the previous mode, and stereo works again untill next reboot. So run this command after reboot, or add it to your autorun script. 
+
 
 # Installing OpenCV 3.4.3 on raspbian Buster without breaking stereoscopic mode:
 
