@@ -58,7 +58,7 @@ while photo_counter != total_photos:
         continue
     pair_img = cv2.imread(filename,-1)
     
-    if (ShowImages)
+    if (ShowImages):
         cv2.imshow("ImagePair", pair_img)
         cv2.waitKey(0)
     imgLeft = pair_img [0:img_height,0:img_width] #Y+H and X+W
