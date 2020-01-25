@@ -47,6 +47,9 @@ UR = 10
 SR = 14
 SPWS = 100
 
+# Use the whole image or a stripe for depth map?
+useStripe = False
+
 # Camera settimgs
 cam_width = 1280
 cam_height = 480
@@ -69,7 +72,7 @@ print ("Scaled image resolution: "+str(img_width)+" x "+str(img_height))
 camera = PiCamera(stereo_mode='side-by-side',stereo_decimate=False)
 camera.resolution=(cam_width, cam_height)
 camera.framerate = 20
-camera.hflip = True
+#camera.hflip = True
 
 # Initialize interface windows
 cv2.namedWindow("Image")
@@ -149,11 +152,16 @@ for frame in camera.capture_continuous(capture, format="bgra", use_video_port=Tr
     pair_img = cv2.cvtColor (frame, cv2.COLOR_BGR2GRAY)
     imgLeft = pair_img [0:img_height,0:int(img_width/2)] #Y+H and X+W
     imgRight = pair_img [0:img_height,int(img_width/2):img_width] #Y+H and X+W
-    imgR = cv2.remap(imgLeft, leftMapX, leftMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
-    imgL = cv2.remap(imgRight, rightMapX, rightMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+    imgL = cv2.remap(imgLeft, leftMapX, leftMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+    imgR = cv2.remap(imgRight, rightMapX, rightMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
     
-    imgRcut = imgR [80:160,0:int(img_width/2)]
-    imgLcut = imgL [80:160,0:int(img_width/2)]
+    if (useStripe):
+        imgRcut = imgR [80:160,0:int(img_width/2)]
+        imgLcut = imgL [80:160,0:int(img_width/2)]
+    else:
+        imgRcut = imgR
+        imgLcut = imgL
+        
     rectified_pair = (imgLcut, imgRcut)
     disparity = stereo_depth_map(rectified_pair)
     # show the frame
