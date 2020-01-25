@@ -94,7 +94,7 @@ while photo_counter != total_photos:
   # If pair has no left or right image - exit
   if ((leftExists == False) or (rightExists == False)) and (leftExists != rightExists):
       print ("Pair No ", photo_counter, "has only one image! Left:", leftExists, " Right:", rightExists )
-      exit(0) 
+      continue 
   
   # If stereopair is complete - go to processing 
   if (leftExists and rightExists):
