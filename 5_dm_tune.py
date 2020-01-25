@@ -51,7 +51,7 @@ if os.path.isfile(imageToDisp) == False:
     print ("Taking photo...")
     camera = PiCamera(stereo_mode='side-by-side',stereo_decimate=False)
     camera.resolution=(photo_width, photo_height)
-    camera.hflip = True
+    #camera.hflip = True
     time.sleep(1)
     camera.capture(imageToDisp)
     print ("Done!")
@@ -83,8 +83,8 @@ width_right, height_right = imgRight.shape[:2]
 if 0 in [width_left, height_left, width_right, height_right]:
     print("Error: Can't remap image.")
 
-imgR = cv2.remap(imgLeft, leftMapX, leftMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
-imgL = cv2.remap(imgRight, rightMapX, rightMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+imgL = cv2.remap(imgLeft, leftMapX, leftMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+imgR = cv2.remap(imgRight, rightMapX, rightMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
 
 cv2.imshow('Left CALIBRATED', imgL)
 cv2.imshow('Right CALIBRATED', imgR)
