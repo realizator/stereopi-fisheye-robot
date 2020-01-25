@@ -89,7 +89,7 @@ q = np.array([
 camera = PiCamera(stereo_mode='side-by-side',stereo_decimate=False)
 camera.resolution=(cam_width, cam_height)
 camera.framerate = 20
-camera.hflip = True
+#camera.hflip = True
 
 # Initialize interface windows
 cv2.namedWindow("Image")
@@ -167,15 +167,18 @@ QQ = npzfile['dispartityToDepthMap']
 map_width = 320
 map_height = 240
 
-
+min_y = 10000
+max_y = -10000
+min_x =  10000
+max_x = -10000
 # Capture the frames from the camera
 for frame in camera.capture_continuous(capture, format="bgra", use_video_port=True, resize=(img_width,img_height)):
     t1 = datetime.now()
     pair_img = cv2.cvtColor (frame, cv2.COLOR_BGR2GRAY)
     imgLeft = pair_img [0:img_height,0:int(img_width/2)] #Y+H and X+W
     imgRight = pair_img [0:img_height,int(img_width/2):img_width] #Y+H and X+W
-    imgR = cv2.remap(imgLeft, leftMapX, leftMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
-    imgL = cv2.remap(imgRight, rightMapX, rightMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+    imgL = cv2.remap(imgLeft, leftMapX, leftMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+    imgR = cv2.remap(imgRight, rightMapX, rightMapY, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
     
     # Taking a strip from our image for lidar-like mode (and saving CPU) 
     imgRcut = imgR [80:160,0:int(img_width/2)]
@@ -207,18 +210,23 @@ for frame in camera.capture_continuous(capture, format="bgra", use_video_port=Tr
     # Put all points to the 2D map
     
     # Change map_zoom to adjust visible range!
-    map_zoom = 50.0
-    
+    map_zoom_y = int(map_height/(max_y-min_y))
+    map_zoom_x = int(map_height/(max_x-min_x)) 
     for n, points in enumerate(points):
-        cur_x = points[0][0]
-        cur_y = points[0][1]
-        xx = int(cur_y*map_zoom) + int(map_width/2)         # zero point is in the middle of the map
-        yy = -int(cur_x*map_zoom) + map_height              # zero point is at the bottom of the map
+        cur_y = -points[0][0]
+        cur_x = points[0][1]
+        max_y = max(cur_y, max_y)
+        min_y = min(cur_y, min_y)
+        max_x = max(cur_x, max_x)
+        min_x = min(cur_x, min_x)
+        xx = int(cur_x*map_zoom_x) + int(map_width/2)         # zero point is in the middle of the map
+        yy = map_height - int((cur_y-min_y)*map_zoom_y)       # zero point is at the bottom of the map
 
         # If the point fits on our 2D map - let's draw it!
         if (xx < map_width) and (xx >= 0) and (yy < map_height) and (yy >= 0):
             xy_projection[yy, xx] = max_line_gray[0,n]
-
+    
+    #print ("min_y = " + str(min_y) + " max_y = " + str(max_y) + " zoom_x = " + str(map_zoom_x) + " zoom_y = " + str(map_zoom_y))
     xy_projection_color = cv2.applyColorMap(xy_projection, cv2.COLORMAP_JET)
     max_line_color = cv2.applyColorMap(max_line_gray, cv2.COLORMAP_JET)
 
