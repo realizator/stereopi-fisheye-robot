@@ -45,7 +45,7 @@ cam_width = 1280
 cam_height = 480
 
 # Final image capture settings
-scale_ratio = 1
+scale_ratio = 0.5
 
 # Camera resolution height must be dividable by 16, and width by 32
 cam_width = int((cam_width+31)/32)*32
@@ -62,7 +62,7 @@ print ("Scaled image resolution: "+str(img_width)+" x "+str(img_height))
 camera = PiCamera(stereo_mode='side-by-side',stereo_decimate=False)
 camera.resolution=(cam_width, cam_height)
 camera.framerate = 20
-camera.hflip = True
+#camera.hflip = True
 
 t2 = datetime.now()
 counter = 0
@@ -79,8 +79,10 @@ for frame in camera.capture_continuous(capture, format="bgra", use_video_port=Tr
     # if the `q` key was pressed, break from the loop and save last image
     if key == ord("q") :
         avgtime = avgtime/counter
+        t3 = datetime.now()
+        timedif = t2-t3
         print ("Average time between frames: " + str(avgtime))
-        print ("Average FPS: " + str(1/avgtime))
+        print ("Average FPS: " + str(1/timediff.total_seconds()))
         if (os.path.isdir("./scenes")==False):
             os.makedirs("./scenes")
         cv2.imwrite(filename, frame)
