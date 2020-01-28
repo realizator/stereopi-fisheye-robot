@@ -41,7 +41,7 @@ img_width = 640
 img_height = 480
 
 # Visualization options
-ShowImages = True
+ShowImages = False
 
 # Counter setup
 photo_counter = 0
