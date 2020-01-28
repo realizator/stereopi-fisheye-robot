@@ -33,7 +33,7 @@ from picamera import PiCamera
 import cv2
 import numpy as np
 
-# User quit methid message 
+# User quit method message 
 print("You can press 'Q' to quit this script.")
 
 # Photo session settings
