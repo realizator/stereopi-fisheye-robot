@@ -49,6 +49,9 @@ SPWS = 100
 
 # Use the whole image or a stripe for depth map?
 useStripe = False
+dm_colors_autotune = True
+disp_max = -100000
+disp_min = 10000
 
 # Camera settimgs
 cam_width = 1280
@@ -86,13 +89,21 @@ cv2.moveWindow("right", 850,100)
 disparity = np.zeros((img_width, img_height), np.uint8)
 sbm = cv2.StereoBM_create(numDisparities=0, blockSize=21)
 
+
 def stereo_depth_map(rectified_pair):
+    global disp_max
+    global disp_min
     dmLeft = rectified_pair[0]
     dmRight = rectified_pair[1]
     disparity = sbm.compute(dmLeft, dmRight)
     local_max = disparity.max()
     local_min = disparity.min()
-    print(local_max, local_min)
+    if (dm_colors_autotune):
+        disp_max = max(local_max,disp_max)
+        disp_min = min(local_min,disp_min)
+        local_max = disp_max
+        local_min = disp_min
+        print(disp_max, disp_min)
     disparity_grayscale = (disparity-local_min)*(65535.0/(local_max-local_min))
     #disparity_grayscale = (disparity+208)*(65535.0/1000.0) # test for jumping colors prevention 
     disparity_fixtype = cv2.convertScaleAbs(disparity_grayscale, alpha=(255.0/65535.0))
