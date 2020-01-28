@@ -64,25 +64,20 @@ camera.resolution=(cam_width, cam_height)
 camera.framerate = 20
 #camera.hflip = True
 
-t2 = datetime.now()
+t0 = datetime.now()
 counter = 0
 avgtime = 0
 # Capture frames from the camera
 for frame in camera.capture_continuous(capture, format="bgra", use_video_port=True, resize=(img_width,img_height)):
     counter+=1
-    t1 = datetime.now()
-    timediff = t1-t2
-    avgtime = avgtime + (timediff.total_seconds())
     cv2.imshow("pair", frame)
     key = cv2.waitKey(1) & 0xFF
-    t2 = datetime.now()
     # if the `q` key was pressed, break from the loop and save last image
     if key == ord("q") :
-        avgtime = avgtime/counter
-        t3 = datetime.now()
-        timedif = t2-t3
+        t1 = datetime.now()
+        timediff = t1-t0
         print ("Average time between frames: " + str(avgtime))
-        print ("Average FPS: " + str(1/timediff.total_seconds()))
+        print ("Frames: " + str(counter) + " Time: " + str(timediff.total_seconds())+ " Average FPS: " + str(counter/timediff.total_seconds()))
         if (os.path.isdir("./scenes")==False):
             os.makedirs("./scenes")
         cv2.imwrite(filename, frame)
