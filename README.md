@@ -18,6 +18,7 @@ sudo vcdbg set awb_mode 0
 This will turn AWB algo to the previous mode, and stereo works again untill next reboot. So run this command after reboot, or add it to your autorun script. 
 
 Related article: https://medium.com/stereopi/a-robot-on-stereopi-part-1-fisheye-cameras-92aa56e73a94
+Related 2nd article: https://stereopi.com/blog/opencv-comparing-speed-c-and-python-code-raspberry-pi-stereo-vision
 
 ### Ready-to-use Buster Raspbian OpenCV image (1.87Gb, needs 8Gb micro SD or eMMC):
 
