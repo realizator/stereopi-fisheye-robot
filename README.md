@@ -20,7 +20,11 @@ This will turn AWB algo to the previous mode, and stereo works again untill next
 Related article: https://medium.com/stereopi/a-robot-on-stereopi-part-1-fisheye-cameras-92aa56e73a94
 Related 2nd article: https://stereopi.com/blog/opencv-comparing-speed-c-and-python-code-raspberry-pi-stereo-vision
 
-### Ready-to-use Buster Raspbian OpenCV image (1.87Gb, needs 8Gb micro SD or eMMC):
+### Updated Buster image (Python and C++ code) 4.7 Gb, for a 16 Gb eMMC or micro SD card:
+
+[Google drive] (https://drive.google.com/file/d/1xlkvZMl9gJGm4Gy1oVlGknHywDnvy5gS/view?usp=sharing)
+
+### Original ready-to-use Buster Raspbian OpenCV image (Python code only, 1.87Gb, needs 8Gb micro SD or eMMC):
 
 [Google Drive](https://drive.google.com/file/d/1eIt-qJDd_aeyK72cqOgRzUGfm5TZmfMD/view?usp=sharing)
 
