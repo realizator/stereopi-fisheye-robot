@@ -22,7 +22,7 @@ Related 2nd article: https://stereopi.com/blog/opencv-comparing-speed-c-and-pyth
 
 ### Updated Buster image (Python and C++ code) 4.7 Gb, for a 16 Gb eMMC or micro SD card:
 
-[Google drive] (https://drive.google.com/file/d/1xlkvZMl9gJGm4Gy1oVlGknHywDnvy5gS/view?usp=sharing)
+[Google drive](https://drive.google.com/file/d/1xlkvZMl9gJGm4Gy1oVlGknHywDnvy5gS/view?usp=sharing)
 
 ### Original ready-to-use Buster Raspbian OpenCV image (Python code only, 1.87Gb, needs 8Gb micro SD or eMMC):
 
