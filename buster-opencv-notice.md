@@ -7,24 +7,23 @@ sudo vcdbg set awb_mode 0
 ```
 This will turn AWB algo to the previous mode, and stereo works again untill next reboot. So run this command after reboot, or add it to your autorun script. 
 
+19 of April, 2020 update: 
+sudo rpi-update now fix this stereoscopic issue.
 
 # Installing OpenCV 3.4.3 on raspbian Buster without breaking stereoscopic mode:
 
 #### 1. Download Raspbian Buster and write image to your micro SD card.
-We've used "Raspbian Buster with desktop, 2019-07-10"
 
 
 #### 2. Enable two cameras support:
 Put [dt-blob.bin](http://wiki.stereopi.com/files/dt-blob.bin.zip) file to /BOOT partition. Do not forget to extract it from ZIP archive.
 
-#### 3. First boot (important!!!)
-After the first boot you'll see setup wizard. Choose all settings you need, but please 
+#### 3. First boot
+After the first boot you'll see setup wizard. 
 
-#### SKIP the latest step - "check for updates".
+Choose all settings you need, install all recommended updates.
 
-## SKIP the latest step - "check for updates".
-
-#### SKIP the latest step - "check for updates".
+Please do 'sudo rpi-update' after that. This will fix stereoscopic mode.
 
 Enable camera:
 
@@ -54,13 +53,18 @@ You should see "Python 3.7.3" in the first row.
 
 If you see "Python 2.7.x" - please repeat previous steps.
 
-#### 5. Install OpenCV 3.4.3 with PiWheels:
+#### 5. Install OpenCV with PiWheels:
 
-`sudo pip3 install opencv-python`
+Workaround: to avoid "undefined symbol: __atomic_fetch_add8" error while "import cv2",
+please install specific version of OpenCV.
 
-`sudo pip3 install opencv-contrib-python`
+For OpenCV 3.x use:
 
-In our case we have 3.4.3.18 version installed.
+`sudo pip3 install opencv-python==3.4.6.27`
+
+For OpenCV 4.x use:
+
+`sudo pip3 install opencv-contrib-python==4.1.0.25`
 
 #### 6. Install additional libs:
 
