@@ -6,16 +6,8 @@ Set of StereoPi Fisheye Robot tutorial scripts for StereoPi board with CM3/3+ in
 Was tested in the following environment:
 * Raspbian Buster (kernel 4.19.57-v7+)
 * Python 3.7.3 
-* OpenCV 3.4.3 (pre-compiled, 'pip' from Python Wheels)
+* OpenCV 3.4.3 or 4.1.0.25 (pre-compiled, 'pip' from Python Wheels)
 * Picamera 1.13
-
-### Critical notice!
-In the latest Raspbian kernels stereoscopic support has been occasionally broken by implementing new AWB algorithm. You can read some more details [here](https://github.com/raspberrypi/firmware/issues/1253). Our Raspbian image provided has no such a problem, but you can get it after 'apt-get upgrade' or 'rpi-update'.
-Current solution: after boot run once this command before accessing your cameras:
-```
-sudo vcdbg set awb_mode 0
-```
-This will turn AWB algo to the previous mode, and stereo works again untill next reboot. So run this command after reboot, or add it to your autorun script. 
 
 Related article: https://medium.com/stereopi/a-robot-on-stereopi-part-1-fisheye-cameras-92aa56e73a94
 Related 2nd article: https://stereopi.com/blog/opencv-comparing-speed-c-and-python-code-raspberry-pi-stereo-vision
@@ -33,6 +25,8 @@ Related 2nd article: https://stereopi.com/blog/opencv-comparing-speed-c-and-pyth
 ### Want to prepare OpenCV Raspbian Buster image by yourself?
 
 Follow this guide: [buster-opencv-notice.md](https://github.com/realizator/stereopi-fisheye-robot/blob/master/buster-opencv-notice.md)
+
+If you did Raspbian update, and stereoscopic capture command (like 'raspistill -3d sbs') hangs your StereoPi - please do 'sudo rpi-update' to fix it.
 
 ### Brief scripts description:
 
