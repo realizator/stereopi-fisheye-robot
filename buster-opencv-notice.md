@@ -1,17 +1,19 @@
 ### Critical notice!
-In the latest Raspbian kernels stereoscopic support has been occasionally broken by implementing new AWB algorithm. You can read some details [here](https://github.com/raspberrypi/firmware/issues/1253). Our Raspbian image provided has no such a problem (as it is based on older kernel).
+In the latest Raspbian kernels stereoscopic support has been occasionally broken by implementing new AWB algorithm. You can read some details [here](https://github.com/raspberrypi/firmware/issues/1253). Kernels affected: 4.19.57 and up to 4.19.97. Our Raspbian image provided has no such a problem (as it is based on older kernel).
 
-The solution (obsolete): after boot run once this command before accessing your cameras:
+The solution (**obsolete**): 
+
+after boot run once this command before accessing your cameras:
 ```
 sudo vcdbg set awb_mode 0
 ```
 This will turn AWB algo to the previous mode, and stereo works again untill next reboot. So run this command after reboot, or add it to your autorun script. 
 
-New solution (recommended):
+New solution (**recommended**):
 
 `sudo rpi-update`
 
-As of 19 of April, 2020, issue is fixed in the latest firmware update. So just use rpi-update.
+As of 10 of April, 2020, issue is fixed in the latest firmware update. So just use rpi-update.
  
 
 # Installing OpenCV 3.x or 4.x on Raspbian Buster:
@@ -57,6 +59,8 @@ Check if the settings are applied correctly.
 You should see "Python 3.7.3" in the first row.
 
 If you see "Python 2.7.x" - please repeat previous steps.
+
+(Type exit(0) to exit Python command line).
 
 #### 5. Install OpenCV with PiWheels:
 
