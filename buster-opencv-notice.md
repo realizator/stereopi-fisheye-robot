@@ -1,16 +1,20 @@
 ### Critical notice!
-In the latest Raspbian kernels stereoscopic support has been occasionally broken by implementing new AWB algorithm. You can read some details [here](https://github.com/raspberrypi/firmware/issues/1253). Our Raspbian image provided has no such a problem (as it is based on older kernel), but you can get it after 'apt-get upgrade' or 'rpi-update'.
+In the latest Raspbian kernels stereoscopic support has been occasionally broken by implementing new AWB algorithm. You can read some details [here](https://github.com/raspberrypi/firmware/issues/1253). Our Raspbian image provided has no such a problem (as it is based on older kernel).
 
-Current solution: after boot run once this command before accessing your cameras:
+The solution (obsolete): after boot run once this command before accessing your cameras:
 ```
 sudo vcdbg set awb_mode 0
 ```
 This will turn AWB algo to the previous mode, and stereo works again untill next reboot. So run this command after reboot, or add it to your autorun script. 
 
-19 of April, 2020 update: 
-sudo rpi-update now fix this stereoscopic issue.
+New solution (recommended):
 
-# Installing OpenCV 3.4.3 on raspbian Buster without breaking stereoscopic mode:
+`sudo rpi-update`
+
+As of 19 of April, 2020, issue is fixed in the latest firmware update. So just use rpi-update.
+ 
+
+# Installing OpenCV 3.x or 4.x on Raspbian Buster:
 
 #### 1. Download Raspbian Buster and write image to your micro SD card.
 
@@ -19,9 +23,10 @@ sudo rpi-update now fix this stereoscopic issue.
 Put [dt-blob.bin](http://wiki.stereopi.com/files/dt-blob.bin.zip) file to /BOOT partition. Do not forget to extract it from ZIP archive.
 
 #### 3. First boot
+
 After the first boot you'll see setup wizard. 
 
-Choose all settings you need, install all recommended updates.
+Choose all settings you need, install all recommended updates and reboot the StereoPi.
 
 Please do 'sudo rpi-update' after that. This will fix stereoscopic mode.
 
@@ -96,9 +101,9 @@ running this code.
 
 #### 9. How to avoid occasional stereoscopic support breaking?
 
-Untill update from RPi Foundation, please do not update your Raspbian Buster.
+Stereoscopic support is broken on kernels from 4.19.57 and up to 4.19.97
 
-We do not recomment direct kernel update with 'sudo rpi-update', system update with 'sudo apt-get upgrade', and also following the last setup wizard step running 'sudo piwiz'.
+To fix it, just use "sudo rpi-update". This fix works from ~10 of April, 2020.
 
 Stay tuned! 
 
