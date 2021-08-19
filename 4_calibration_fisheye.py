@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Eugene a.k.a. Realizator, stereopi.com, virt2real team
+# Copyright (C) 2021 Eugene a.k.a. Realizator, stereopi.com, virt2real team
 #
 # This file is part of StereoPi tutorial scripts.
 #
@@ -99,6 +99,7 @@ while photo_counter != total_photos:
   # If stereopair is complete - go to processing 
   if (leftExists and rightExists):
       imgL = cv2.imread(leftName,1)
+      loadedY, loadedX, clrs  =  imgL.shape
       grayL = cv2.cvtColor(imgL,cv2.COLOR_BGR2GRAY)
       gray_small_left = cv2.resize (grayL, (img_width,img_height), interpolation = cv2.INTER_AREA)
       imgR = cv2.imread(rightName,1)
@@ -118,7 +119,44 @@ while photo_counter != total_photos:
           key = cv2.waitKey(0)
           if key == ord("q"):
               exit(0)
+
+      # Here is a fix for the OpenCV bug, which is causing this error:
+      # error:(-215:Assertion failed) fabs(norm_u1) > 0 in function 'InitExtrinsics'
+      # It means corners are too close to the side of the image. Let's filter them out
       
+      SayMore = True; #Should we print additional debug info?
+      if ((retL == True) and (retR == True)):
+          minRx = cornersR[:,:,0].min()
+          maxRx = cornersR[:,:,0].max()
+          minRy = cornersR[:,:,1].min()
+          maxRy = cornersR[:,:,1].max()
+
+          minLx = cornersL[:,:,0].min()
+          maxLx = cornersL[:,:,0].max()          
+          minLy = cornersL[:,:,1].min()
+          maxLy = cornersL[:,:,1].max()          
+               
+          border_threshold_x = loadedX/7
+          border_threshold_y = loadedY/7
+          if (SayMore): 
+          	   print ("thr_X: ", border_threshold_x, "thr_Y:", border_threshold_y)
+          x_thresh_bad = False
+          if ((minRx<border_threshold_x) or (minLx<border_threshold_x)): # or (loadedX-maxRx < border_threshold_x) or (loadedX-maxLx < border_threshold_x)):
+              x_thresh_bad = True
+          y_thresh_bad = False
+          if ((minRy<border_threshold_y) or (minLy<border_threshold_y)): # or (loadedY-maxRy < border_threshold_y) or (loadedY-maxLy < border_threshold_y)):
+              y_thresh_bad = True
+          if (y_thresh_bad==True) or (x_thresh_bad==True):
+              if (SayMore):
+                  print("Chessboard too close to the side!", "X thresh: ", x_thresh_bad, "Y thresh: ", y_thresh_bad)
+                  print ("minRx: ", minRx, "maxRx: ", maxRx, " minLx: ", minLx, "maxLx:", maxLx)      
+                  print ("minRy: ", minRy, "maxRy: ", maxRy, " minLy: ", minLy, "maxLy:", maxLy) 
+              else: 
+                  print("Chessboard too close to the side! Image ignored")
+              retL = False
+              retR = False
+              continue
+
       # Here is our scaling trick! Hi res for calibration, low res for real work!
       # Scale corners X and Y to our working resolution
       if ((retL == True) and (retR == True)) and (img_height <= photo_height):
