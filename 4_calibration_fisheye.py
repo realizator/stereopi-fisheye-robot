@@ -124,7 +124,7 @@ while photo_counter != total_photos:
       # error:(-215:Assertion failed) fabs(norm_u1) > 0 in function 'InitExtrinsics'
       # It means corners are too close to the side of the image. Let's filter them out
       
-      SayMore = True; #Should we print additional debug info?
+      SayMore = False; #Should we print additional debug info?
       if ((retL == True) and (retR == True)):
           minRx = cornersR[:,:,0].min()
           maxRx = cornersR[:,:,0].max()
